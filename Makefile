@@ -18,6 +18,10 @@ docker_testrun: # runs the docker container
 	# DO NOT CHANGE THIS
 	docker run -it -p 8000:8000 devops/pinger:latest
 
+docker_testrun_pipeline: # runs the docker container
+	# DO NOT CHANGE THIS
+	timeout 10 docker run -p 8000:8000 devops/pinger:latest | exit 0
+
 docker_tar: docker_image # exports the docker image as a tarball
 	# DO NOT CHANGE THIS
 	docker save -o ./build/pinger.tar devops/pinger:latest 

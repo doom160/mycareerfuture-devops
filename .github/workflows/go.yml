@@ -1,0 +1,48 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Get dependencies
+      run: make dep
+
+    - name: Build
+      run: make build 
+
+    - name: Test
+      run: make test
+      
+    - name: Docker Build
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        make docker_image
+        docker tag devops/pinger:latest devops/pinger:$IMAGE_TAG
+
+    - name: Docker Test
+      run: make docker_testrun_pipeline
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pinger
+        path: cmd/pinger
+      
+        
