@@ -13,8 +13,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-const DefaultPingTimeout = 10 * time.Second
-const DefaultTimeout = 5 * time.Second
+const DefaultPingTimeout = 30 * time.Second
+const DefaultTimeout = 30 * time.Second
 const ExitCodeSuccess = 0
 const ExitCodeInitFailed = 1
 const ExitCodeMainFailed = 2

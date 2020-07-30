@@ -1,0 +1,23 @@
+version: "3"
+services:
+
+  client_a:
+    image: devops/pinger:latest
+    network_mode: "host"
+    environment:
+      PORT: 8001
+      TARGET_PORT: 8002
+
+  client_b:
+    image: devops/pinger:latest
+    network_mode: "host"
+    environment:
+      PORT: 8002
+      TARGET_PORT: 8003
+
+  client_c:
+    image: devops/pinger:latest
+    network_mode: "host"
+    environment:
+      PORT: 8003
+      TARGET_PORT: 8001
