@@ -35,7 +35,7 @@ jobs:
       run: |
         make docker_image
         docker tag devops/pinger:latest devops/pinger:${{ steps.vars.outputs.tag }}
-	make docker_tar
+        make docker_tar
 
     - uses: actions/upload-artifact@v2
       with:
