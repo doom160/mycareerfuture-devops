@@ -38,6 +38,11 @@ jobs:
         docker tag devops/pinger:latest devops/pinger:$IMAGE_TAG
 
     - name: Docker Test
-      run: make docker_testrun
+      run: make docker_testrun_pipeline
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pinger
+        path: cmd/pinger
       
         
