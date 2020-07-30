@@ -1,12 +1,12 @@
-name: Go
+name: Release
 
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    tags: [ * ]
 
 jobs:
   build:
-    name: Build
+    name: Release
     runs-on: ubuntu-latest
     steps:
 
@@ -15,6 +15,10 @@ jobs:
       with:
         go-version: ^1.13
       id: go
+
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
@@ -25,21 +29,21 @@ jobs:
     - name: Build
       run: make build 
 
-    - name: Test
-      run: make test
-      
     - name: Docker Build
       env:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         make docker_image
-
-    - name: Docker Test
-      run: make docker_testrun_pipeline
+        docker tag devops/pinger:latest devops/pinger:${{ steps.vars.outputs.tag }}
+	make docker_tar
 
     - uses: actions/upload-artifact@v2
       with:
         name: pinger
         path: cmd/pinger
-      
+     
+    - uses: actions/upload-artifact@v2
+      with:
+        name: docker_tar
+        path: build/pinger.tar
         
