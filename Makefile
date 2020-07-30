@@ -1,5 +1,5 @@
 dep: # installs dependencies
-	GO111MODULE=on go get -d -v
+	GO111MODULE=on go mod vendor
 
 build: # builds the binary
 	GO111MODULE=on go build -mod vendor -o ./bin/pinger ./cmd/pinger
